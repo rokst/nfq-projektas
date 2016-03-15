@@ -15,11 +15,11 @@ class __TwigTemplate_dfe01345cc952d6dd5522d8c5b56345b2ee4ca16f4c50a1c75c027c7e9f
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        $__internal_d1c58a422a1c651c4ffd3ca9d24b4cb4bb6abf0121c42befa5b9cd41a288dc1f = $this->env->getExtension("native_profiler");
-        $__internal_d1c58a422a1c651c4ffd3ca9d24b4cb4bb6abf0121c42befa5b9cd41a288dc1f->enter($__internal_d1c58a422a1c651c4ffd3ca9d24b4cb4bb6abf0121c42befa5b9cd41a288dc1f_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "@WebProfiler/Icon/search.svg"));
+        $__internal_a9caf8b797baf091624a39249f2ee2a4a439721e54526b9fcfd8d2d4181d3709 = $this->env->getExtension("native_profiler");
+        $__internal_a9caf8b797baf091624a39249f2ee2a4a439721e54526b9fcfd8d2d4181d3709->enter($__internal_a9caf8b797baf091624a39249f2ee2a4a439721e54526b9fcfd8d2d4181d3709_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "@WebProfiler/Icon/search.svg"));
 
         // line 1
-        echo "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" x=\"0px\" y=\"0px\" height=\"24\" viewBox=\"0 0 24 24\" enable-background=\"new 0 0 24 24\" xml:space=\"preserve\">
+        echo "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" x=\"0px\" y=\"0px\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" enable-background=\"new 0 0 24 24\" xml:space=\"preserve\">
     <path fill=\"#AAAAAA\" d=\"M11.61,0.357c-4.4,0-7.98,3.58-7.98,7.98c0,1.696,0.526,3.308,1.524,4.679l-4.374,4.477
         c-0.238,0.238-0.369,0.554-0.369,0.891c0,0.336,0.131,0.653,0.369,0.891c0.238,0.238,0.554,0.369,0.891,0.369
         c0.336,0,0.653-0.131,0.893-0.371l4.372-4.475c1.369,0.996,2.98,1.521,4.674,1.521c4.4,0,7.98-3.58,7.98-7.98
@@ -28,7 +28,7 @@ class __TwigTemplate_dfe01345cc952d6dd5522d8c5b56345b2ee4ca16f4c50a1c75c027c7e9f
 </svg>
 ";
         
-        $__internal_d1c58a422a1c651c4ffd3ca9d24b4cb4bb6abf0121c42befa5b9cd41a288dc1f->leave($__internal_d1c58a422a1c651c4ffd3ca9d24b4cb4bb6abf0121c42befa5b9cd41a288dc1f_prof);
+        $__internal_a9caf8b797baf091624a39249f2ee2a4a439721e54526b9fcfd8d2d4181d3709->leave($__internal_a9caf8b797baf091624a39249f2ee2a4a439721e54526b9fcfd8d2d4181d3709_prof);
 
     }
 
@@ -42,7 +42,7 @@ class __TwigTemplate_dfe01345cc952d6dd5522d8c5b56345b2ee4ca16f4c50a1c75c027c7e9f
         return array (  22 => 1,);
     }
 }
-/* <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" height="24" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">*/
+/* <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">*/
 /*     <path fill="#AAAAAA" d="M11.61,0.357c-4.4,0-7.98,3.58-7.98,7.98c0,1.696,0.526,3.308,1.524,4.679l-4.374,4.477*/
 /*         c-0.238,0.238-0.369,0.554-0.369,0.891c0,0.336,0.131,0.653,0.369,0.891c0.238,0.238,0.554,0.369,0.891,0.369*/
 /*         c0.336,0,0.653-0.131,0.893-0.371l4.372-4.475c1.369,0.996,2.98,1.521,4.674,1.521c4.4,0,7.98-3.58,7.98-7.98*/

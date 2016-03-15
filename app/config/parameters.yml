@@ -10,3 +10,4 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: c1bac479e80667c2ecda087fe95506b3fb198d6e
+    api-weather: 4faa9a77255d373a496639a56d3291ee

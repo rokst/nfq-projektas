@@ -16,6 +16,7 @@
       <parameter key="DoctrineBundle">Doctrine\Bundle\DoctrineBundle\DoctrineBundle</parameter>
       <parameter key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</parameter>
       <parameter key="AppBundle">AppBundle\AppBundle</parameter>
+      <parameter key="WeatherBundle">WeatherBundle\WeatherBundle</parameter>
       <parameter key="DebugBundle">Symfony\Bundle\DebugBundle\DebugBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -33,6 +34,7 @@
     <parameter key="mailer_user">null</parameter>
     <parameter key="mailer_password">null</parameter>
     <parameter key="secret">c1bac479e80667c2ecda087fe95506b3fb198d6e</parameter>
+    <parameter key="api-weather">4faa9a77255d373a496639a56d3291ee</parameter>
     <parameter key="locale">en</parameter>
     <parameter key="controller_resolver.class">Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver</parameter>
     <parameter key="controller_name_converter.class">Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser</parameter>
@@ -387,6 +389,7 @@
     </parameter>
     <parameter key="swiftmailer.default_mailer">default</parameter>
     <parameter key="doctrine_cache.apc.class">Doctrine\Common\Cache\ApcCache</parameter>
+    <parameter key="doctrine_cache.apcu.class">Doctrine\Common\Cache\ApcuCache</parameter>
     <parameter key="doctrine_cache.array.class">Doctrine\Common\Cache\ArrayCache</parameter>
     <parameter key="doctrine_cache.chain.class">Doctrine\Common\Cache\ChainCache</parameter>
     <parameter key="doctrine_cache.couchbase.class">Doctrine\Common\Cache\CouchbaseCache</parameter>
@@ -406,6 +409,10 @@
     <parameter key="doctrine_cache.mongodb.collection.class">MongoCollection</parameter>
     <parameter key="doctrine_cache.mongodb.connection.class">MongoClient</parameter>
     <parameter key="doctrine_cache.mongodb.server">localhost:27017</parameter>
+    <parameter key="doctrine_cache.predis.client.class">Predis\Client</parameter>
+    <parameter key="doctrine_cache.predis.scheme">tcp</parameter>
+    <parameter key="doctrine_cache.predis.host">localhost</parameter>
+    <parameter key="doctrine_cache.predis.port">6379</parameter>
     <parameter key="doctrine_cache.redis.class">Doctrine\Common\Cache\RedisCache</parameter>
     <parameter key="doctrine_cache.redis.connection.class">Redis</parameter>
     <parameter key="doctrine_cache.redis.host">localhost</parameter>
@@ -811,6 +818,7 @@
       <call method="setConfigCacheFactory">
         <argument type="service" id="config_cache_factory"/>
       </call>
+      <autowiring-type>Symfony\Component\Translation\TranslatorInterface</autowiring-type>
     </service>
     <service id="translator" class="Symfony\Component\Translation\IdentityTranslator">
       <argument type="service" id="translator.selector"/>
@@ -1021,9 +1029,6 @@
       <tag name="kernel.event_subscriber"/>
     </service>
     <service id="security.secure_random" class="Symfony\Component\Security\Core\Util\SecureRandom">
-      <tag name="monolog.logger" channel="security"/>
-      <argument>/Users/rokasstasys/nfq_project/app/cache/dev/secure_random.seed</argument>
-      <argument type="service" id="monolog.logger.security" on-invalid="ignore"/>
       <deprecated>The "%service_id%" service is deprecated since Symfony 2.8 and will be removed in 3.0. Use the random_bytes() function instead.</deprecated>
     </service>
     <service id="form.resolved_type_factory" class="Symfony\Component\Form\Extension\DataCollector\Proxy\ResolvedTypeFactoryDataCollectorProxy">
@@ -1326,9 +1331,12 @@
             <argument type="service" id="service_container"/>
             <argument type="collection">
               <argument key="validator.expression">validator.expression</argument>
+              <argument key="Symfony\Component\Validator\Constraints\ExpressionValidator">validator.expression</argument>
               <argument key="Symfony\Component\Validator\Constraints\EmailValidator">validator.email</argument>
               <argument key="security.validator.user_password">security.validator.user_password</argument>
+              <argument key="Symfony\Component\Security\Core\Validator\Constraints\UserPasswordValidator">security.validator.user_password</argument>
               <argument key="doctrine.orm.validator.unique">doctrine.orm.validator.unique</argument>
+              <argument key="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator">doctrine.orm.validator.unique</argument>
             </argument>
           </service>
         </argument>
@@ -1761,7 +1769,7 @@
       <argument type="collection">
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>56beeffe607214.46648034</argument>
+            <argument>56e806427a0510.78517149</argument>
           </service>
         </argument>
       </argument>
@@ -1890,7 +1898,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.token_storage"/>
-            <argument>56beeffe607214.46648034</argument>
+            <argument>56e806427a0510.78517149</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
             <argument type="service" id="security.authentication.manager"/>
           </service>
@@ -1992,6 +2000,7 @@
               <service class="Symfony\Bridge\Twig\Extension\HttpFoundationExtension" public="false">
                 <tag name="twig.extension"/>
                 <argument type="service" id="request_stack"/>
+                <argument type="service" id="router.request_context" on-invalid="ignore"/>
               </service>
             </argument>
           </service>
@@ -2059,6 +2068,7 @@
           <service class="Symfony\Bridge\Twig\Extension\HttpFoundationExtension" public="false">
             <tag name="twig.extension"/>
             <argument type="service" id="request_stack"/>
+            <argument type="service" id="router.request_context" on-invalid="ignore"/>
           </service>
         </argument>
       </call>
@@ -2238,6 +2248,12 @@
       <argument type="service">
         <service class="Symfony\Bridge\Doctrine\ContainerAwareEventManager" public="false">
           <argument type="service" id="service_container"/>
+          <call method="addEventListener">
+            <argument type="collection">
+              <argument>loadClassMetadata</argument>
+            </argument>
+            <argument type="service" id="doctrine.orm.default_listeners.attach_entity_listeners"/>
+          </call>
         </service>
       </argument>
       <argument type="collection"/>
@@ -2275,6 +2291,9 @@
       </call>
     </service>
     <service id="doctrine.orm.default_entity_listener_resolver" class="Doctrine\ORM\Mapping\DefaultEntityListenerResolver"/>
+    <service id="doctrine.orm.default_listeners.attach_entity_listeners" class="Doctrine\ORM\Tools\AttachEntityListenersListener">
+      <tag name="doctrine.event_listener" event="loadClassMetadata"/>
+    </service>
     <service id="doctrine.orm.default_manager_configurator" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator">
       <argument type="collection"/>
       <argument type="collection"/>
@@ -2523,18 +2542,6 @@
         <argument type="service" id="monolog.handler.debug"/>
       </call>
     </service>
-    <service id="monolog.logger.security" class="Symfony\Bridge\Monolog\Logger">
-      <argument>security</argument>
-      <call method="pushHandler">
-        <argument type="service" id="monolog.handler.console"/>
-      </call>
-      <call method="pushHandler">
-        <argument type="service" id="monolog.handler.main"/>
-      </call>
-      <call method="pushHandler">
-        <argument type="service" id="monolog.handler.debug"/>
-      </call>
-    </service>
     <service id="monolog.logger.templating" class="Symfony\Bridge\Monolog\Logger">
       <argument>templating</argument>
       <call method="pushHandler">
@@ -2585,6 +2592,18 @@
     </service>
     <service id="monolog.logger.event" class="Symfony\Bridge\Monolog\Logger">
       <argument>event</argument>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.debug"/>
+      </call>
+    </service>
+    <service id="monolog.logger.security" class="Symfony\Bridge\Monolog\Logger">
+      <argument>security</argument>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.console"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.main"/>
+      </call>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.debug"/>
       </call>
@@ -2681,6 +2700,10 @@
         <argument>Doctrine</argument>
       </call>
       <call method="addPath">
+        <argument>/Users/rokasstasys/nfq_project/src/WeatherBundle/Resources/views</argument>
+        <argument>Weather</argument>
+      </call>
+      <call method="addPath">
         <argument>/Users/rokasstasys/nfq_project/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle/Resources/views</argument>
         <argument>Debug</argument>
       </call>
@@ -2706,6 +2729,7 @@
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.debug"/>
       </call>
+      <autowiring-type>Psr\Log\LoggerInterface</autowiring-type>
     </service>
     <service id="swiftmailer.mailer.default.transport" class="Swift_Transport_SpoolTransport">
       <argument type="service" id="swiftmailer.mailer.default.transport.eventdispatcher"/>

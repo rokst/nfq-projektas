@@ -15,16 +15,16 @@ class __TwigTemplate_5d58fb6406515563a7b8fd001e0c005bada4209ce6ee12b0b9eccf35846
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        $__internal_ed37d98ef55c75146efcc7ab18815dc465bfa449a4ff2ec3a39aaf0b6bc4d1ed = $this->env->getExtension("native_profiler");
-        $__internal_ed37d98ef55c75146efcc7ab18815dc465bfa449a4ff2ec3a39aaf0b6bc4d1ed->enter($__internal_ed37d98ef55c75146efcc7ab18815dc465bfa449a4ff2ec3a39aaf0b6bc4d1ed_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "@Security/Collector/icon.svg"));
+        $__internal_1b3a7729bd3553b0109fb943e88011384164b6a63d6b9a8521ac2f27ebf55835 = $this->env->getExtension("native_profiler");
+        $__internal_1b3a7729bd3553b0109fb943e88011384164b6a63d6b9a8521ac2f27ebf55835->enter($__internal_1b3a7729bd3553b0109fb943e88011384164b6a63d6b9a8521ac2f27ebf55835_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "@Security/Collector/icon.svg"));
 
         // line 1
-        echo "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" x=\"0px\" y=\"0px\" height=\"24\" viewBox=\"0 0 24 24\" enable-background=\"new 0 0 24 24\" xml:space=\"preserve\">
+        echo "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" x=\"0px\" y=\"0px\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" enable-background=\"new 0 0 24 24\" xml:space=\"preserve\">
     <path fill=\"#AAAAAA\" d=\"M21,20.4V22H3v-1.6c0-3.7,2.4-6.9,5.8-8c-1.7-1.1-2.9-3-2.9-5.2c0-3.4,2.7-6.1,6.1-6.1s6.1,2.7,6.1,6.1c0,2.2-1.2,4.1-2.9,5.2C18.6,13.5,21,16.7,21,20.4z\"/>
 </svg>
 ";
         
-        $__internal_ed37d98ef55c75146efcc7ab18815dc465bfa449a4ff2ec3a39aaf0b6bc4d1ed->leave($__internal_ed37d98ef55c75146efcc7ab18815dc465bfa449a4ff2ec3a39aaf0b6bc4d1ed_prof);
+        $__internal_1b3a7729bd3553b0109fb943e88011384164b6a63d6b9a8521ac2f27ebf55835->leave($__internal_1b3a7729bd3553b0109fb943e88011384164b6a63d6b9a8521ac2f27ebf55835_prof);
 
     }
 
@@ -38,7 +38,7 @@ class __TwigTemplate_5d58fb6406515563a7b8fd001e0c005bada4209ce6ee12b0b9eccf35846
         return array (  22 => 1,);
     }
 }
-/* <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" height="24" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">*/
+/* <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">*/
 /*     <path fill="#AAAAAA" d="M21,20.4V22H3v-1.6c0-3.7,2.4-6.9,5.8-8c-1.7-1.1-2.9-3-2.9-5.2c0-3.4,2.7-6.1,6.1-6.1s6.1,2.7,6.1,6.1c0,2.2-1.2,4.1-2.9,5.2C18.6,13.5,21,16.7,21,20.4z"/>*/
 /* </svg>*/
 /* */
