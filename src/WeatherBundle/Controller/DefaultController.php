@@ -24,8 +24,6 @@ class DefaultController extends Controller
             'timeout'  => 2.0,
             ]);
 
-        $API =$this->container->getParameter('api-weather');
-
         $response = $client->request('GET', 'weather?q='.$city.'&appid='.$this->container->getParameter('api-weather').'&units=metric');
 
         $string = $response -> getBody();
