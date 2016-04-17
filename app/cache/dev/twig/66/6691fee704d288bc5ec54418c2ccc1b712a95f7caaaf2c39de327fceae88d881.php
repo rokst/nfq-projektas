@@ -15,8 +15,8 @@ class __TwigTemplate_3c6c630dfdbdaf4d81427c8084be9611fcdd9cf859ebbdd3f15be8ebb84
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        $__internal_d7f858eacc2d52b69fd6c9bf723130a2dedc43afc451b183a7e02ccd63a7008d = $this->env->getExtension("native_profiler");
-        $__internal_d7f858eacc2d52b69fd6c9bf723130a2dedc43afc451b183a7e02ccd63a7008d->enter($__internal_d7f858eacc2d52b69fd6c9bf723130a2dedc43afc451b183a7e02ccd63a7008d_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "@WebProfiler/Profiler/toolbar.css.twig"));
+        $__internal_1705c03c63bf0fcd701510d85f9c10647bc942c9a41a76e4cae25c26d8ce145c = $this->env->getExtension("native_profiler");
+        $__internal_1705c03c63bf0fcd701510d85f9c10647bc942c9a41a76e4cae25c26d8ce145c->enter($__internal_1705c03c63bf0fcd701510d85f9c10647bc942c9a41a76e4cae25c26d8ce145c_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "@WebProfiler/Profiler/toolbar.css.twig"));
 
         // line 2
         $context["colors"] = array("success" => "#4F805D", "warning" => "#A46A1F", "error" => "#B0413E");
@@ -332,6 +332,7 @@ class __TwigTemplate_3c6c630dfdbdaf4d81427c8084be9611fcdd9cf859ebbdd3f15be8ebb84
     color: #F5F5F5;
 }
 .sf-toolbar-ajax-requests {
+    table-layout: auto;
     width: 100%;
 }
 .sf-toolbar-ajax-requests td {
@@ -408,9 +409,9 @@ class __TwigTemplate_3c6c630dfdbdaf4d81427c8084be9611fcdd9cf859ebbdd3f15be8ebb84
 
 /* Override the setting when the toolbar is on the top */
 ";
-        // line 371
+        // line 372
         if (((isset($context["position"]) ? $context["position"] : $this->getContext($context, "position")) == "top")) {
-            // line 372
+            // line 373
             echo "    .sf-minitoolbar {
         border-bottom-left-radius: 4px;
         border-top-left-radius: 0;
@@ -431,18 +432,18 @@ class __TwigTemplate_3c6c630dfdbdaf4d81427c8084be9611fcdd9cf859ebbdd3f15be8ebb84
     }
 ";
         }
-        // line 391
+        // line 392
         echo "
 ";
-        // line 392
+        // line 393
         if ( !(isset($context["floatable"]) ? $context["floatable"] : $this->getContext($context, "floatable"))) {
-            // line 393
+            // line 394
             echo "    .sf-toolbarreset {
         position: static;
     }
 ";
         }
-        // line 397
+        // line 398
         echo "
 /* Responsive Design */
 .sf-toolbar-icon .sf-toolbar-label,
@@ -536,7 +537,7 @@ class __TwigTemplate_3c6c630dfdbdaf4d81427c8084be9611fcdd9cf859ebbdd3f15be8ebb84
 }
 ";
         
-        $__internal_d7f858eacc2d52b69fd6c9bf723130a2dedc43afc451b183a7e02ccd63a7008d->leave($__internal_d7f858eacc2d52b69fd6c9bf723130a2dedc43afc451b183a7e02ccd63a7008d_prof);
+        $__internal_1705c03c63bf0fcd701510d85f9c10647bc942c9a41a76e4cae25c26d8ce145c->leave($__internal_1705c03c63bf0fcd701510d85f9c10647bc942c9a41a76e4cae25c26d8ce145c_prof);
 
     }
 
@@ -552,7 +553,7 @@ class __TwigTemplate_3c6c630dfdbdaf4d81427c8084be9611fcdd9cf859ebbdd3f15be8ebb84
 
     public function getDebugInfo()
     {
-        return array (  446 => 397,  440 => 393,  438 => 392,  435 => 391,  414 => 372,  412 => 371,  255 => 217,  248 => 213,  241 => 209,  234 => 205,  228 => 202,  222 => 199,  24 => 3,  22 => 2,);
+        return array (  447 => 398,  441 => 394,  439 => 393,  436 => 392,  415 => 373,  413 => 372,  255 => 217,  248 => 213,  241 => 209,  234 => 205,  228 => 202,  222 => 199,  24 => 3,  22 => 2,);
     }
 }
 /* {# when updating any of these colors, do the same in profiler.css.twig #}*/
@@ -850,6 +851,7 @@ class __TwigTemplate_3c6c630dfdbdaf4d81427c8084be9611fcdd9cf859ebbdd3f15be8ebb84
 /*     color: #F5F5F5;*/
 /* }*/
 /* .sf-toolbar-ajax-requests {*/
+/*     table-layout: auto;*/
 /*     width: 100%;*/
 /* }*/
 /* .sf-toolbar-ajax-requests td {*/

@@ -135,6 +135,10 @@ class appDevDebugProjectContainer extends Container
             'monolog.logger.security' => 'getMonolog_Logger_SecurityService',
             'monolog.logger.templating' => 'getMonolog_Logger_TemplatingService',
             'monolog.logger.translation' => 'getMonolog_Logger_TranslationService',
+            'nfq_weather.provider.cached' => 'getNfqWeather_Provider_CachedService',
+            'nfq_weather.provider.delegating' => 'getNfqWeather_Provider_DelegatingService',
+            'nfq_weather.provider.openweathermap' => 'getNfqWeather_Provider_OpenweathermapService',
+            'nfq_weather.provider.yahoo' => 'getNfqWeather_Provider_YahooService',
             'profiler' => 'getProfilerService',
             'profiler_listener' => 'getProfilerListenerService',
             'property_accessor' => 'getPropertyAccessorService',
@@ -258,6 +262,7 @@ class appDevDebugProjectContainer extends Container
             'doctrine.orm.entity_manager' => 'doctrine.orm.default_entity_manager',
             'event_dispatcher' => 'debug.event_dispatcher',
             'mailer' => 'swiftmailer.mailer.default',
+            'nfq_weather.provider' => 'nfq_weather.provider.cached',
             'session.storage' => 'session.storage.native',
             'swiftmailer.mailer' => 'swiftmailer.mailer.default',
             'swiftmailer.plugin.messagelogger' => 'swiftmailer.mailer.default.plugin.messagelogger',
@@ -1480,6 +1485,7 @@ class appDevDebugProjectContainer extends Container
     {
         $this->services['logger'] = $instance = new \Symfony\Bridge\Monolog\Logger('app');
 
+        $instance->useMicrosecondTimestamps(true);
         $instance->pushHandler($this->get('monolog.handler.console'));
         $instance->pushHandler($this->get('monolog.handler.main'));
         $instance->pushHandler($this->get('monolog.handler.debug'));
@@ -1692,6 +1698,58 @@ class appDevDebugProjectContainer extends Container
         $instance->pushHandler($this->get('monolog.handler.debug'));
 
         return $instance;
+    }
+
+    /**
+     * Gets the 'nfq_weather.provider.cached' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Nfq\WeatherBundle\Providers\CachedProvider A Nfq\WeatherBundle\Providers\CachedProvider instance.
+     */
+    protected function getNfqWeather_Provider_CachedService()
+    {
+        return $this->services['nfq_weather.provider.cached'] = new \Nfq\WeatherBundle\Providers\CachedProvider('Nfq\\WeatherBundle\\Providers\\DelegatingProvider', array(0 => 'Nfq\\WeatherBundle\\Providers\\OpenWeatherMapProvider', 1 => 'Nfq\\WeatherBundle\\Providers\\YahooProvider'), 500, array('OpenWeatherMap' => '4faa9a77255d373a496639a56d3291ee', 'Yahoo' => NULL));
+    }
+
+    /**
+     * Gets the 'nfq_weather.provider.delegating' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Nfq\WeatherBundle\Providers\DelegatingProvider A Nfq\WeatherBundle\Providers\DelegatingProvider instance.
+     */
+    protected function getNfqWeather_Provider_DelegatingService()
+    {
+        return $this->services['nfq_weather.provider.delegating'] = new \Nfq\WeatherBundle\Providers\DelegatingProvider(array(0 => 'Nfq\\WeatherBundle\\Providers\\OpenWeatherMapProvider', 1 => 'Nfq\\WeatherBundle\\Providers\\YahooProvider'), array('OpenWeatherMap' => '4faa9a77255d373a496639a56d3291ee', 'Yahoo' => NULL));
+    }
+
+    /**
+     * Gets the 'nfq_weather.provider.openweathermap' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Nfq\WeatherBundle\Providers\OpenWeatherMapProvider A Nfq\WeatherBundle\Providers\OpenWeatherMapProvider instance.
+     */
+    protected function getNfqWeather_Provider_OpenweathermapService()
+    {
+        return $this->services['nfq_weather.provider.openweathermap'] = new \Nfq\WeatherBundle\Providers\OpenWeatherMapProvider(new \Nfq\WeatherBundle\Parsers\OpenWeatherMapParser(), '4faa9a77255d373a496639a56d3291ee');
+    }
+
+    /**
+     * Gets the 'nfq_weather.provider.yahoo' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \Nfq\WeatherBundle\Providers\YahooProvider A Nfq\WeatherBundle\Providers\YahooProvider instance.
+     */
+    protected function getNfqWeather_Provider_YahooService()
+    {
+        return $this->services['nfq_weather.provider.yahoo'] = new \Nfq\WeatherBundle\Providers\YahooProvider(new \Nfq\WeatherBundle\Parsers\YahooParser());
     }
 
     /**
@@ -1990,7 +2048,7 @@ class appDevDebugProjectContainer extends Container
 
         $e = new \Symfony\Component\Security\Http\AccessMap();
 
-        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($e, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => new \Symfony\Component\Security\Core\User\InMemoryUserProvider()), 'main', $a, $this->get('debug.event_dispatcher', ContainerInterface::NULL_ON_INVALID_REFERENCE)), 2 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '56e806427a0510.78517149', $a, $c), 3 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, $this->get('security.access.decision_manager'), $e, $c)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $this->get('security.authentication.trust_resolver'), new \Symfony\Component\Security\Http\HttpUtils($d, $d), 'main', NULL, NULL, NULL, $a, false));
+        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($e, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => new \Symfony\Component\Security\Core\User\InMemoryUserProvider()), 'main', $a, $this->get('debug.event_dispatcher', ContainerInterface::NULL_ON_INVALID_REFERENCE)), 2 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '5713743d9b7448.28747451', $a, $c), 3 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, $this->get('security.access.decision_manager'), $e, $c)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $this->get('security.authentication.trust_resolver'), new \Symfony\Component\Security\Http\HttpUtils($d, $d), 'main', NULL, NULL, NULL, $a, false));
     }
 
     /**
@@ -3039,7 +3097,7 @@ class appDevDebugProjectContainer extends Container
         $instance->addPath(($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/views'), 'Twig');
         $instance->addPath(($this->targetDirs[3].'/vendor/symfony/swiftmailer-bundle/Resources/views'), 'Swiftmailer');
         $instance->addPath(($this->targetDirs[3].'/vendor/doctrine/doctrine-bundle/Resources/views'), 'Doctrine');
-        $instance->addPath(($this->targetDirs[3].'/src/WeatherBundle/Resources/views'), 'Weather');
+        $instance->addPath(($this->targetDirs[3].'/src/Nfq/WeatherBundle/Resources/views'), 'Weather');
         $instance->addPath(($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle/Resources/views'), 'Debug');
         $instance->addPath(($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views'), 'WebProfiler');
         $instance->addPath(($this->targetDirs[2].'/Resources/views'));
@@ -3320,7 +3378,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSecurity_Authentication_ManagerService()
     {
-        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('56e806427a0510.78517149')), true);
+        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('5713743d9b7448.28747451')), true);
 
         $instance->setEventDispatcher($this->get('debug.event_dispatcher'));
 
@@ -3513,7 +3571,7 @@ class appDevDebugProjectContainer extends Container
                 'DoctrineBundle' => 'Doctrine\\Bundle\\DoctrineBundle\\DoctrineBundle',
                 'SensioFrameworkExtraBundle' => 'Sensio\\Bundle\\FrameworkExtraBundle\\SensioFrameworkExtraBundle',
                 'AppBundle' => 'AppBundle\\AppBundle',
-                'WeatherBundle' => 'WeatherBundle\\WeatherBundle',
+                'WeatherBundle' => 'Nfq\\WeatherBundle\\WeatherBundle',
                 'DebugBundle' => 'Symfony\\Bundle\\DebugBundle\\DebugBundle',
                 'WebProfilerBundle' => 'Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle',
                 'SensioDistributionBundle' => 'Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle',
@@ -3806,6 +3864,7 @@ class appDevDebugProjectContainer extends Container
             'monolog.handler.console.class' => 'Symfony\\Bridge\\Monolog\\Handler\\ConsoleHandler',
             'monolog.handler.group.class' => 'Monolog\\Handler\\GroupHandler',
             'monolog.handler.buffer.class' => 'Monolog\\Handler\\BufferHandler',
+            'monolog.handler.deduplication.class' => 'Monolog\\Handler\\DeduplicationHandler',
             'monolog.handler.rotating_file.class' => 'Monolog\\Handler\\RotatingFileHandler',
             'monolog.handler.syslog.class' => 'Monolog\\Handler\\SyslogHandler',
             'monolog.handler.syslogudp.class' => 'Monolog\\Handler\\SyslogUdpHandler',
@@ -3840,6 +3899,7 @@ class appDevDebugProjectContainer extends Container
             'monolog.mongo.client.class' => 'MongoClient',
             'monolog.handler.elasticsearch.class' => 'Monolog\\Handler\\ElasticSearchHandler',
             'monolog.elastica.client.class' => 'Elastica\\Client',
+            'monolog.use_microseconds' => true,
             'monolog.swift_mailer.handlers' => array(
 
             ),
@@ -4014,6 +4074,20 @@ class appDevDebugProjectContainer extends Container
             'sensio_framework_extra.converter.doctrine.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\Request\\ParamConverter\\DoctrineParamConverter',
             'sensio_framework_extra.converter.datetime.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\Request\\ParamConverter\\DateTimeParamConverter',
             'sensio_framework_extra.view.listener.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\EventListener\\TemplateListener',
+            'nfq_weather.delegating_providers' => array(
+                0 => 'Nfq\\WeatherBundle\\Providers\\OpenWeatherMapProvider',
+                1 => 'Nfq\\WeatherBundle\\Providers\\YahooProvider',
+            ),
+            'api_key' => array(
+                'OpenWeatherMap' => '4faa9a77255d373a496639a56d3291ee',
+                'Yahoo' => NULL,
+            ),
+            'nfq_weather.cached_providers' => array(
+                0 => 'Nfq\\WeatherBundle\\Providers\\OpenWeatherMapProvider',
+                1 => 'Nfq\\WeatherBundle\\Providers\\YahooProvider',
+            ),
+            'nfq_weather.cached_provider' => 'Nfq\\WeatherBundle\\Providers\\DelegatingProvider',
+            'ttl' => 500,
             'web_profiler.controller.profiler.class' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ProfilerController',
             'web_profiler.controller.router.class' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\RouterController',
             'web_profiler.controller.exception.class' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ExceptionController',

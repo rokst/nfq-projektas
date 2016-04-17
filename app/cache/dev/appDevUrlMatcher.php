@@ -105,21 +105,9 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
-        if (0 === strpos($pathinfo, '/orai')) {
-            // weather_default_index
-            if (preg_match('#^/orai(?:/(?P<city>[^/]++))?$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'weather_default_index')), array (  'city' => 'Vilnius',  '_controller' => 'WeatherBundle\\Controller\\DefaultController::indexAction',));
-            }
-
-            // weather_default_index_1
-            if (rtrim($pathinfo, '/') === '/orai') {
-                if (substr($pathinfo, -1) !== '/') {
-                    return $this->redirect($pathinfo.'/', 'weather_default_index_1');
-                }
-
-                return array (  'city' => 'Vilnius',  '_controller' => 'WeatherBundle\\Controller\\DefaultController::indexAction',  '_route' => 'weather_default_index_1',);
-            }
-
+        // nfq_weather_default_index
+        if (0 === strpos($pathinfo, '/orai') && preg_match('#^/orai(?:/(?P<city>[^/]++))?$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'nfq_weather_default_index')), array (  'city' => 'Vilnius',  '_controller' => 'Nfq\\WeatherBundle\\Controller\\DefaultController::indexAction',));
         }
 
         // homepage
